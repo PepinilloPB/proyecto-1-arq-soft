@@ -1,0 +1,19 @@
+###Ver timeline de usuario 1
+GET http://localhost:3000/tweet/1
+
+###Crear tweet del usuario 1
+POST http://localhost:3000/tweet/1
+Content-Type: application/json
+
+{
+    "tweet_user": 1,
+    "tweet_text": "tweet 2"
+}
+
+###Usuario 1 sigue a Usuario 2
+POST http://localhost:3000/user/1
+Content-Type: application/json
+
+{
+    "followee_id": 2
+}
