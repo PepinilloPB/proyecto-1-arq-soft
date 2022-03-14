@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  server:
+    container_name: twitter-server
+    restart: always
+    build: .
+    ports: 
+      - 3000:3000
+    depends_on:
+      - mysql
+  mysql:
+    container_name: twitter-database
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - ./prueba-volume-mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=twitter

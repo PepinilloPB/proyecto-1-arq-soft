@@ -13,7 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tweetController = void 0;
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const node_cache_1 = __importDefault(require("node-cache"));
 const database_1 = __importDefault(require("../database"));
+const myCache = new node_cache_1.default({ stdTTL: 10 });
 class TweetController {
     index(req, res) {
         res.send('Hello from tweetController');
@@ -32,6 +35,35 @@ class TweetController {
         return __awaiter(this, void 0, void 0, function* () {
             const tweets = yield database_1.default.query(' SELECT * FROM tweet WHERE tweet_user = ?', [req.params.id]);
             res.json(tweets);
+            /*if(myCache.has('todos')){
+                console.log('Del cache');
+                return res.send(myCache.get('todos'));
+            } else {
+                fetch("http://localhost:3000/tweet/" + req.params.id)
+                .then((response) => response.json())
+                .then(() => {
+                    myCache.set('todos', res.json(tweets));
+                    console.log('Del API');
+                    res.send(res.json(tweets));
+                });
+            }*/
+        });
+    }
+    cacheTweet(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (myCache.has('todos')) {
+                //console.log('Del cache');
+                return res.send(myCache.get('todos'));
+            }
+            else {
+                (0, node_fetch_1.default)("http://localhost:3000/tweet/" + req.params.id)
+                    .then((response) => response.json())
+                    .then((json) => {
+                    myCache.set('todos', res.json(json));
+                    //console.log('Del API');
+                    res.send(res.json(json));
+                });
+            }
         });
     }
 }

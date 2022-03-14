@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "tweet_user": 1,
-    "tweet_text": "tweet 2"
+    "tweet_text": "tweet nuevo"
 }
 
 ###Usuario 1 sigue a Usuario 2
@@ -17,3 +17,6 @@ Content-Type: application/json
 {
     "followee_id": 2
 }
+
+###Timeline
+GET http://localhost:3000/tweet/timeline/1

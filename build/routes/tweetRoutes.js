@@ -11,6 +11,7 @@ class TweetRoutes {
         this.router.get('/', tweetController_1.tweetController.index);
         this.router.get('/:id', tweetController_1.tweetController.list);
         this.router.post('/:id', tweetController_1.tweetController.create);
+        this.router.get('/timeline/:id', tweetController_1.tweetController.cacheTweet);
     }
 }
 const tweetRoutes = new TweetRoutes();
