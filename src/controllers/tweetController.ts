@@ -41,16 +41,23 @@ class TweetController{
 
     public async cacheTweet (req: Request, res: Response){
         if(myCache.has('todos')){
-            //console.log('Del cache');
+            console.log('Del cache');
             return res.send(myCache.get('todos'));
         } else{
-            fetch("http://localhost:3000/tweet/" + req.params.id)
+            const tweets = await pool.query(' SELECT * FROM tweet WHERE tweet_user = ?', 
+                                        [req.params.id]);
+            
+            myCache.set('todos', tweets);
+            console.log('Del DB');
+            res.json(tweets);
+            //res.send(res.json(tweets));
+            /*fetch("http://localhost:3000/tweet/" + req.params.id)
             .then((response) => response.json())
             .then((json) => {
                 myCache.set('todos', res.json(json));
                 //console.log('Del API');
                 res.send(res.json(json));
-            });
+            });*/
         }
     }
 }
